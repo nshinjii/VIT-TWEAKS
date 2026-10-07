@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VIT Twe@ks — PC Optimization & Gaming Tweaks</title>
+<meta name="description" content="VIT Twe@ks is a Discord community for PC optimization: more FPS, lower input delay, smoother gameplay." />
+<meta name="theme-color" content="#0a0612" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ec4899'/%3E%3Cstop offset='1' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230a0612'/%3E%3Cpath d='M32 8l5 17 17 5-17 5-5 17-5-17-17-5 17-5z' fill='url(%23g)'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Kaushan+Script&display=swap" rel="stylesheet" />
+
+<script>
+/* =====================================================================
+   EDIT EVERYTHING HERE
+   All links, numbers and text for the site live in this one object.
+   ===================================================================== */
+const CONFIG = {
+  brand: {
+    prefix: "VIT",
+    script: "Twe@ks",
+    tagline: "Unlock your PC's full potential. More FPS, less delay.",
+    subTagline: "A Discord community dedicated to boosting FPS, cutting input delay and making your PC run buttery smooth in games like Fortnite.",
+  },
+
+  links: {
+    discordInvite: "https://discord.gg/your-invite-code",       // main invite
+    boostLink: "https://discord.gg/your-invite-code",           // where "Boost the server" goes
+    staffApplication: "https://discord.com/channels/SERVER_ID/CHANNEL_ID", // #staff-application channel link
+    socials: [
+      { name: "YouTube", url: "https://youtube.com/@your-channel", icon: "youtube" },
+      { name: "TikTok",  url: "https://tiktok.com/@your-handle",  icon: "tiktok" },
+      { name: "X",       url: "https://x.com/your-handle",        icon: "x" },
+    ],
+  },
+
+  stats: {
+    members: 1250,        // member count badge in the hero
+    boosts: 20,           // current server boosts
+    boostGoal: 33,        // boost goal
+  },
+
+  // Before / After block. Placeholder numbers — edit freely.
+  // "better": "higher" or "lower" decides which direction is an improvement.
+  beforeAfter: [
+    { label: "Average FPS",          unit: "fps", before: 144, after: 312, better: "higher" },
+    { label: "1% Low FPS",           unit: "fps", before: 68,  after: 190, better: "higher" },
+    { label: "Input Latency",        unit: "ms",  before: 32,  after: 11,  better: "lower"  },
+    { label: "Background Processes", unit: "",    before: 186, after: 74,  better: "lower"  },
+  ],
+
+  features: [
+    { icon: "fps",     title: "FPS Boosting",           text: "Squeeze every frame out of your hardware with tuned GPU, CPU and in-game settings." },
+    { icon: "latency", title: "Input Delay Reduction",  text: "Tighter timer resolution, power plans and driver tweaks so every click lands instantly." },
+    { icon: "broom",   title: "Windows Debloating",     text: "Strip out bloatware, telemetry and useless services that eat your resources." },
+    { icon: "wifi",    title: "Network Optimization",   text: "Lower ping, steadier connection and fewer packet-loss spikes mid-fight." },
+    { icon: "wrench",  title: "Custom Gaming Tweaks",   text: "Personal setups built around your exact PC, games and playstyle." },
+  ],
+
+  roles: [
+    { name: "Admin",                color: "#ef4444", text: "Runs the server, keeps things fair and makes the final calls." },
+    { name: "Trial Discord Helper", color: "#f59e0b", text: "New helpers proving themselves by answering questions and assisting members." },
+    { name: "[Tweaked]",            color: "#ec4899", text: "Members who got their PC tweaked by the team. Welcome to the smooth side." },
+    { name: "Member",               color: "#a855f7", text: "Everyone in the community. Ask questions, share results, learn the craft." },
+  ],
+
+  team: [
+    { name: "Vit",               role: "Owner",                   initials: "V",  bio: "Founder of VIT Twe@ks. Lives and breathes frame times." },
+    { name: "Vittweaks DEVELOPER", role: "Developer & Marketing", initials: "VD", bio: "Builds the tools and spreads the word." },
+  ],
+
+  // PLACEHOLDER vouches — replace with real ones from the server.
+  vouches: [
+    { name: "[Placeholder] Member #1", text: "[PLACEHOLDER VOUCH] Replace this with a real vouch from the server, e.g. how much their FPS improved.", rating: 5 },
+    { name: "[Placeholder] Member #2", text: "[PLACEHOLDER VOUCH] Replace this with a real vouch about input delay or how smooth their game feels now.", rating: 5 },
+    { name: "[Placeholder] Member #3", text: "[PLACEHOLDER VOUCH] Replace this with a real vouch about the support from the staff team.", rating: 5 },
+    { name: "[Placeholder] Member #4", text: "[PLACEHOLDER VOUCH] Replace this with a real vouch about network or ping improvements.", rating: 5 },
+  ],
+
+  staff: {
+    title: "Join the Staff",
+    text: "Know your way around Windows, BIOS and game configs? We're always looking for helpful, patient people to support the community. Head to the #staff-application channel, fill out the form, and the team will review it.",
+    perks: ["Help members get tweaked", "Exclusive staff role & channels", "Learn from experienced tweakers"],
+    buttonText: "Apply in #staff-application",
+  },
+
+  faq: [
+    { q: "Are the tweaks safe?", a: "Our tweaks are tested and commonly used, and we explain what each one does. That said, every PC is different and any system change carries some risk, so always back up first and only apply what you understand." },
+    { q: "Do I need to create a restore point first?", a: "Yes, always. Create a System Restore Point before applying any tweak so you can roll back instantly if something doesn't feel right." },
+    { q: "How do I get tweaked?", a: "Join the Discord, read the rules, then open a ticket or follow the instructions in the server. A staff member will guide you through the process for your setup." },
+    { q: "Will this work on a low-end PC?", a: "Yes. Low-end and mid-range PCs often see the biggest relative gains, because removing bloat frees up resources you were already short on." },
+    { q: "Does it cost anything?", a: "Lots of guides and help in the server are free. Check the Discord for details on any custom or one-on-one services." },
+  ],
+
+  footer: {
+    copyright: "VIT Twe@ks. All rights reserved.",
+    disclaimer: "Always create a system restore point before applying tweaks. Use at your own risk.",
+    note: "Not affiliated with Epic Games, Microsoft, Discord or any game publisher.",
+  },
+};
+</script>
+
+<style>
+:root {
+  --bg: #0a0612;
+  --bg-2: #120a1f;
+  --purple: #a855f7;
+  --pink: #ec4899;
+  --text: #f3eefc;
+  --muted: #a99bc2;
+  --card: rgba(168, 85, 247, 0.06);
+  --border: rgba(168, 85, 247, 0.28);
+  --grad: linear-gradient(90deg, var(--pink), var(--purple));
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --script: "Kaushan Script", "Brush Script MT", cursive;
+  --radius: 18px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; }
+
+/* ---------- Background ---------- */
+.bg-glow {
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(60vw 50vh at 15% 0%, rgba(168, 85, 247, 0.22), transparent 70%),
+    radial-gradient(50vw 45vh at 90% 20%, rgba(236, 72, 153, 0.16), transparent 70%),
+    radial-gradient(70vw 60vh at 50% 110%, rgba(168, 85, 247, 0.14), transparent 70%);
+}
+#stars { position: fixed; inset: 0; z-index: -1; pointer-events: none; width: 100%; height: 100%; }
+
+/* ---------- Layout ---------- */
+.container { width: min(1140px, 100% - 32px); margin-inline: auto; }
+section { padding: 96px 0; position: relative; }
+.section-head { text-align: center; max-width: 680px; margin: 0 auto 52px; }
+.eyebrow {
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--pink); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.eyebrow::before, .eyebrow::after { content: "✦"; color: var(--purple); font-size: 0.7rem; }
+h2 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; }
+.section-head p { color: var(--muted); margin-top: 12px; }
+.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---------- Nav ---------- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled { background: rgba(10, 6, 18, 0.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-color: var(--border); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.nav-logo { display: flex; align-items: baseline; gap: 6px; font-weight: 800; letter-spacing: 0.04em; }
+.nav-logo .script { font-family: var(--script); font-weight: 400; font-size: 1.5rem; letter-spacing: 0; }
+.nav-links { display: flex; gap: 26px; list-style: none; font-family: var(--mono); font-size: 0.82rem; }
+.nav-links a { color: var(--muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta { padding: 9px 18px !important; font-size: 0.82rem !important; }
+.menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text); border-radius: 10px; width: 42px; height: 42px; cursor: pointer; }
+.menu-btn svg { margin: auto; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--sans); font-weight: 700; font-size: 1rem; border: 0; cursor: pointer;
+  padding: 14px 26px; border-radius: 999px; transition: transform 0.2s, box-shadow 0.25s, background 0.25s;
+}
+.btn-primary { background: var(--grad); color: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 10px 30px -8px rgba(236, 72, 153, 0.6); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(255,255,255,0.15) inset, 0 14px 40px -6px rgba(168, 85, 247, 0.8), 0 0 30px rgba(236, 72, 153, 0.45); }
+.btn-ghost { background: rgba(168, 85, 247, 0.08); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--purple); box-shadow: 0 0 24px rgba(168, 85, 247, 0.35); transform: translateY(-2px); }
+.btn-lg { padding: 18px 36px; font-size: 1.1rem; }
+
+/* ---------- Glass card ---------- */
+.card {
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.09), rgba(236, 72, 153, 0.03));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+.card.hoverable:hover {
+  transform: translateY(-6px);
+  border-color: rgba(236, 72, 153, 0.6);
+  box-shadow: 0 0 0 1px rgba(236, 72, 153, 0.25), 0 20px 50px -20px rgba(168, 85, 247, 0.7), 0 0 40px -10px rgba(236, 72, 153, 0.45);
+}
+
+/* ---------- Fade in ---------- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ---------- Hero ---------- */
+.hero { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; text-align: center; padding: 120px 0 80px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 999px;
+  font-family: var(--mono); font-size: 0.82rem; color: var(--text);
+  background: rgba(168, 85, 247, 0.1); border: 1px solid var(--border);
+}
+.badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e; animation: pulse 2s infinite; }
+@keyframes pulse { 50% { opacity: 0.4; } }
+.logo-wrap { position: relative; display: inline-block; margin: 28px 0 8px; }
+.logo { display: flex; align-items: baseline; justify-content: center; gap: clamp(8px, 2vw, 20px); flex-wrap: wrap; line-height: 1; }
+.logo .vit {
+  font-weight: 800; font-size: clamp(3rem, 11vw, 7.5rem); letter-spacing: 0.02em; color: #fff;
+  text-shadow: 0 0 30px rgba(168, 85, 247, 0.55);
+}
+.logo .script {
+  font-family: var(--script); font-size: clamp(3.8rem, 14vw, 9.5rem); padding: 0 0.12em 0.1em;
+  background: linear-gradient(90deg, #ff6ec7, var(--pink) 30%, var(--purple) 80%, #c084fc);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 18px rgba(236, 72, 153, 0.55)) drop-shadow(0 0 40px rgba(168, 85, 247, 0.4));
+  animation: glow 4s ease-in-out infinite;
+}
+@keyframes glow { 50% { filter: drop-shadow(0 0 26px rgba(236, 72, 153, 0.8)) drop-shadow(0 0 60px rgba(168, 85, 247, 0.55)); } }
+.logo-rocket { position: absolute; right: -10px; top: -14px; width: clamp(36px, 6vw, 58px); animation: float 4s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translate(0,0) rotate(0); } 50% { transform: translate(6px,-10px) rotate(6deg); } }
+.sparkle { position: absolute; color: #fff; animation: twinkle 2.6s ease-in-out infinite; pointer-events: none; }
+.sparkle svg { width: 100%; height: 100%; }
+@keyframes twinkle { 0%,100% { opacity: 0.25; transform: scale(0.7) rotate(0); } 50% { opacity: 1; transform: scale(1.1) rotate(20deg); } }
+.tagline { font-size: clamp(1.15rem, 2.6vw, 1.55rem); font-weight: 700; margin-top: 10px; }
+.sub-tagline { color: var(--muted); max-width: 600px; margin: 14px auto 36px; }
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 48px; }
+.mini-stat { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); padding: 8px 14px; border-radius: 10px; border: 1px dashed var(--border); }
+.mini-stat b { color: var(--text); }
+.scroll-hint { margin-top: 56px; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.2em; }
+.scroll-hint span { display: block; width: 1px; height: 40px; margin: 10px auto 0; background: linear-gradient(var(--pink), transparent); animation: drip 2s infinite; }
+@keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ---------- Features ---------- */
+.features { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+.feature { padding: 30px 26px; grid-column: span 2; }
+.feature:nth-child(4) { grid-column: 2 / span 2; }
+.feature:nth-child(5) { grid-column: 4 / span 2; }
+.icon-box {
+  width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.22), rgba(168, 85, 247, 0.22));
+  border: 1px solid var(--border); color: #fff;
+  box-shadow: 0 0 20px -4px rgba(236, 72, 153, 0.5);
+}
+.feature h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.feature p { color: var(--muted); font-size: 0.95rem; }
+
+/* ---------- Before / After ---------- */
+.ba-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.ba { padding: 26px 22px; }
+.ba-label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.ba-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.ba-row + .ba-row { margin-top: 10px; }
+.ba-tag { font-family: var(--mono); font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; }
+.ba-tag.before { background: rgba(255,255,255,0.06); color: var(--muted); }
+.ba-tag.after { background: rgba(236, 72, 153, 0.18); color: #fbcfe8; }
+.ba-num { font-family: var(--mono); font-weight: 700; }
+.ba-num.before { font-size: 1.3rem; color: var(--muted); }
+.ba-num.after { font-size: 2.2rem; }
+.ba-num small { font-size: 0.55em; color: var(--muted); margin-left: 4px; font-weight: 400; }
+.ba-bar { height: 6px; border-radius: 6px; background: rgba(255,255,255,0.06); margin-top: 18px; overflow: hidden; }
+.ba-bar i { display: block; height: 100%; width: 0; background: var(--grad); border-radius: inherit; transition: width 1.6s cubic-bezier(.2,.8,.2,1); box-shadow: 0 0 12px var(--pink); }
+.ba-delta { margin-top: 12px; font-family: var(--mono); font-size: 0.8rem; color: #86efac; }
+.note { text-align: center; color: var(--muted); font-family: var(--mono); font-size: 0.75rem; margin-top: 22px; }
+
+/* ---------- Boost ---------- */
+.boost { padding: 44px; display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center; overflow: hidden; }
+.boost::before {
+  content: ""; position: absolute; width: 380px; height: 380px; right: -120px; top: -160px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.25), transparent 70%); pointer-events: none;
+}
+.boost h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); }
+.boost p { color: var(--muted); margin-top: 8px; }
+.boost-count { font-family: var(--mono); margin-top: 26px; display: flex; justify-content: space-between; font-size: 0.9rem; }
+.boost-count b { font-size: 1.4rem; }
+.progress { height: 18px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); margin-top: 10px; overflow: hidden; position: relative; }
+.progress i {
+  display: block; height: 100%; width: 0; border-radius: inherit;
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--pink)); background-size: 200% 100%;
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.7);
+  transition: width 1.8s cubic-bezier(.2,.8,.2,1);
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+.milestones { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 8px; }
+.boost-gem { width: 120px; height: 120px; animation: float 5s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(236,72,153,0.6)); }
+.boost-side { display: flex; flex-direction: column; align-items: center; gap: 18px; position: relative; }
+
+/* ---------- Roles ---------- */
+.roles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.role { padding: 26px 22px; border-top: 3px solid var(--rc); }
+.role-tag {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-weight: 600; font-size: 0.85rem;
+  padding: 6px 12px; border-radius: 8px; color: var(--rc);
+  background: color-mix(in srgb, var(--rc) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rc) 45%, transparent);
+}
+.role-tag::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--rc); box-shadow: 0 0 10px var(--rc); }
+.role p { color: var(--muted); margin-top: 16px; font-size: 0.95rem; }
+.role-tier { position: absolute; top: 18px; right: 18px; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+
+/* ---------- Team ---------- */
+.team { display: grid; grid-template-columns: repeat(2, minmax(0, 340px)); justify-content: center; gap: 24px; }
+.member { padding: 36px 28px; text-align: center; }
+.avatar {
+  width: 112px; height: 112px; margin: 0 auto 20px; border-radius: 50%; padding: 3px; background: var(--grad);
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.45);
+}
+.avatar div {
+  width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 30% 25%, #2a1747, #120a1f);
+  font-family: var(--mono); font-weight: 700; font-size: 1.8rem;
+}
+.avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.member h3 { font-size: 1.2rem; word-break: break-word; }
+.member .role-tag { margin-top: 10px; --rc: var(--pink); }
+.member p { color: var(--muted); margin-top: 14px; font-size: 0.95rem; }
+
+/* ---------- Vouches ---------- */
+.carousel { position: relative; max-width: 760px; margin: 0 auto; }
+.track-wrap { overflow: hidden; border-radius: var(--radius); }
+.track { display: flex; transition: transform 0.6s cubic-bezier(.2,.8,.2,1); }
+.slide { flex: 0 0 100%; padding: 4px; }
+.vouch { padding: 40px 36px; text-align: center; }
+.vouch .quote { font-family: var(--script); font-size: 4rem; line-height: 0.6; height: 30px; }
+.stars { color: #fbbf24; letter-spacing: 3px; margin: 10px 0 14px; }
+.vouch blockquote { font-size: 1.1rem; }
+.vouch cite { display: block; margin-top: 18px; font-style: normal; font-family: var(--mono); font-size: 0.85rem; color: var(--pink); }
+.placeholder-flag { display: inline-block; margin-bottom: 14px; font-family: var(--mono); font-size: 0.7rem; padding: 3px 10px; border-radius: 6px; border: 1px dashed #f59e0b; color: #fcd34d; }
+.car-btn {
+  position: absolute; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(10, 6, 18, 0.8); border: 1px solid var(--border); color: var(--text); cursor: pointer;
+  display: grid; place-items: center; transition: box-shadow 0.2s, border-color 0.2s;
+}
+.car-btn:hover { border-color: var(--pink); box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+.car-btn.prev { left: -64px; } .car-btn.next { right: -64px; }
+.dots { display: flex; justify-content: center; gap: 8px; margin-top: 22px; }
+.dots button { width: 10px; height: 10px; border-radius: 999px; border: 0; background: rgba(168, 85, 247, 0.3); cursor: pointer; transition: width 0.3s, background 0.3s; }
+.dots button.active { width: 28px; background: var(--grad); }
+
+/* ---------- Staff ---------- */
+.staff { padding: 52px 44px; text-align: center; overflow: hidden; }
+.staff p { color: var(--muted); max-width: 620px; margin: 14px auto 26px; }
+.perks { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 30px; list-style: none; }
+.perks li { font-family: var(--mono); font-size: 0.8rem; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); background: rgba(168, 85, 247, 0.08); }
+.perks li::before { content: "✦ "; color: var(--pink); }
+
+/* ---------- FAQ ---------- */
+.faq { max-width: 780px; margin: 0 auto; display: grid; gap: 14px; }
+.faq-item { overflow: hidden; }
+.faq-q {
+  width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; text-align: left;
+  background: none; border: 0; color: var(--text); font: 600 1.05rem var(--sans); padding: 22px 24px; cursor: pointer;
+}
+.faq-q .plus { flex: 0 0 auto; width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); display: grid; place-items: center; transition: transform 0.3s, background 0.3s; font-family: var(--mono); }
+.faq-item.open .plus { transform: rotate(45deg); background: var(--grad); border-color: transparent; }
+.faq-item.open { border-color: rgba(236, 72, 153, 0.55); box-shadow: 0 0 30px -12px rgba(236, 72, 153, 0.6); }
+.faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+.faq-item.open .faq-a { grid-template-rows: 1fr; }
+.faq-a > div { overflow: hidden; }
+.faq-a p { padding: 0 24px 22px; color: var(--muted); }
+
+/* ---------- Footer ---------- */
+footer { border-top: 1px solid var(--border); padding: 56px 0 36px; background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.06)); }
+.foot-top { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.foot-logo { font-weight: 800; font-size: 1.3rem; display: flex; align-items: baseline; gap: 6px; }
+.foot-logo .script { font-family: var(--script); font-weight: 400; font-size: 1.9rem; }
+.socials { display: flex; gap: 10px; }
+.socials a { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; border: 1px solid var(--border); background: rgba(168, 85, 247, 0.06); transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s; }
+.socials a:hover { border-color: var(--pink); box-shadow: 0 0 18px rgba(236, 72, 153, 0.5); transform: translateY(-2px); }
+.disclaimer {
+  margin-top: 32px; padding: 16px 18px; border-radius: 12px; display: flex; gap: 12px; align-items: flex-start;
+  border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.07); color: #fde68a; font-size: 0.9rem;
+}
+.disclaimer svg { flex: 0 0 auto; margin-top: 2px; }
+.foot-bottom { margin-top: 26px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .features { grid-template-columns: repeat(2, 1fr); }
+  .feature, .feature:nth-child(4), .feature:nth-child(5) { grid-column: auto; }
+  .feature:nth-child(5) { grid-column: 1 / -1; }
+  .ba-grid, .roles { grid-template-columns: repeat(2, 1fr); }
+  .car-btn.prev { left: 8px; } .car-btn.next { right: 8px; }
+  .vouch { padding: 40px 64px; }
+}
+@media (max-width: 820px) {
+  .nav-links {
+    position: absolute; top: 68px; left: 16px; right: 16px; flex-direction: column; gap: 0; padding: 8px;
+    background: rgba(18, 10, 31, 0.97); border: 1px solid var(--border); border-radius: 14px;
+    opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity 0.25s, transform 0.25s;
+  }
+  .nav-links.open { opacity: 1; transform: none; pointer-events: auto; }
+  .nav-links a { display: block; padding: 12px 14px; }
+  .nav-links .nav-cta { margin-top: 6px; width: 100%; }
+  .menu-btn { display: grid; }
+  .boost { grid-template-columns: 1fr; padding: 32px 24px; text-align: center; }
+  .boost-side { order: -1; }
+  .boost-gem { width: 90px; height: 90px; }
+}
+@media (max-width: 600px) {
+  section { padding: 72px 0; }
+  .features, .ba-grid, .roles, .team { grid-template-columns: 1fr; }
+  .feature:nth-child(5) { grid-column: auto; }
+  .vouch { padding: 34px 22px 64px; }
+  .car-btn { top: auto; bottom: 14px; transform: none; width: 40px; height: 40px; }
+  .car-btn.prev { left: calc(50% - 48px); } .car-btn.next { right: calc(50% - 48px); }
+  .staff { padding: 40px 22px; }
+  .btn-lg { width: 100%; }
+  .hero-actions .btn { width: 100%; }
+  .logo-rocket { right: -4px; top: -24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-logo" aria-label="Home"><span data-bind="brand.prefix"></span><span class="script grad-text" data-bind="brand.script"></span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#features">Services</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#roles">Roles</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#vouches">Vouches</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a class="btn btn-primary nav-cta" data-href="links.discordInvite" target="_blank" rel="noopener">Join Discord</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+<!-- ============ 1. HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="badge reveal"><span class="dot"></span><span><b id="memberCount">0</b>+ members tweaking</span></div>
+
+    <div class="logo-wrap reveal">
+      <h1 class="logo"><span class="vit" data-bind="brand.prefix"></span><span class="script" data-bind="brand.script"></span></h1>
+      <svg class="logo-rocket" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ec4899"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+          <linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#ec4899" stop-opacity="0"/></linearGradient>
+        </defs>
+        <g transform="rotate(45 32 32)">
+          <path d="M28 46h8l-4 14z" fill="url(#fl)"/>
+          <path d="M32 4c8 6 11 17 10 30l-4 12H26l-4-12C21 21 24 10 32 4z" fill="url(#rg)"/>
+          <circle cx="32" cy="22" r="5" fill="#0a0612" stroke="#fff" stroke-width="2"/>
+          <path d="M22 32l-8 10 10-2zM42 32l8 10-10-2z" fill="#c084fc"/>
+        </g>
+      </svg>
+      <span class="sparkle" style="left:-26px;top:10px;width:22px;height:22px"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" fill="currentColor"/></svg></span>
+      <span class="sparkle" style="left:38%;bottom:-18px;width:14px;height:14px;animation-delay:.8s;color:#f9a8d4"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" fill="currentColor"/></svg></span>
+      <span class="sparkle" style="right:12%;bottom:-6px;width:18px;height:18px;animation-delay:1.4s;color:#d8b4fe"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" fill="currentColor"/></svg></span>
+    </div>
+
+    <p class="tagline reveal" data-bind="brand.tagline"></p>
+    <p class="sub-tagline reveal" data-bind="brand.subTagline"></p>
+
+    <div class="hero-actions reveal">
+      <a class="btn btn-primary btn-lg" data-href="links.discordInvite" target="_blank" rel="noopener">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>
+        Join the Discord
+      </a>
+      <a class="btn btn-ghost btn-lg" href="#features">See what we do</a>
+    </div>
+
+    <div class="hero-stats reveal">
+      <div class="mini-stat">⚡ <b>+FPS</b> boost</div>
+      <div class="mini-stat">🎯 <b>-ms</b> input delay</div>
+      <div class="mini-stat">🧹 <b>0</b> bloat</div>
+    </div>
+    <div class="scroll-hint">SCROLL<span></span></div>
+  </div>
+</section>
+
+<!-- ============ 2. WHAT WE DO ============ -->
+<section id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">What we do</div>
+      <h2>Tune your PC like a <span class="grad-text">pro setup</span></h2>
+      <p>From Windows to your network adapter, we optimize every layer between you and the game.</p>
+    </div>
+    <div class="features" id="featureGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 3. BEFORE / AFTER ============ -->
+<section id="results">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Before / After</div>
+      <h2>Numbers <span class="grad-text">don't lie</span></h2>
+      <p>Typical results after a full tweak session.</p>
+    </div>
+    <div class="ba-grid" id="baGrid"></div>
+    <p class="note">* Example figures. Results vary by hardware, game and settings.</p>
+  </div>
+</section>
+
+<!-- ============ 4. SERVER BOOST GOAL ============ -->
+<section id="boost">
+  <div class="container">
+    <div class="card boost reveal">
+      <div>
+        <div class="eyebrow" style="justify-content:flex-start">Server Boost Goal</div>
+        <h2>Help us reach <span class="grad-text">Level 3</span></h2>
+        <p>Every boost unlocks better audio, more emoji slots, a custom invite link and more perks for the whole community.</p>
+        <div class="boost-count"><span>BOOSTS</span><span><b id="boostNow">0</b> / <span id="boostGoal"></span></span></div>
+        <div class="progress" role="progressbar" aria-label="Server boost progress" id="boostBar" aria-valuemin="0"><i></i></div>
+        <div class="milestones" id="milestones"></div>
+      </div>
+      <div class="boost-side">
+        <svg class="boost-gem" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f9a8d4"/><stop offset=".5" stop-color="#ec4899"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+          <path d="M50 6l36 26-14 58H28L14 32z" fill="url(#gem)"/>
+          <path d="M50 6L36 32h28zM14 32h22l14 58zM86 32H64L50 90z" fill="#fff" fill-opacity=".18"/>
+          <path d="M36 32l14 58 14-58z" fill="#fff" fill-opacity=".08"/>
+        </svg>
+        <a class="btn btn-primary" data-href="links.boostLink" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          Boost the server
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. ROLES ============ -->
+<section id="roles">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Roles</div>
+      <h2>Find your <span class="grad-text">place</span></h2>
+      <p>Each role has its own tag in the server. Here's what they mean.</p>
+    </div>
+    <div class="roles" id="roleGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 6. TEAM ============ -->
+<section id="team">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Team</div>
+      <h2>The people <span class="grad-text">behind the tweaks</span></h2>
+    </div>
+    <div class="team" id="teamGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 7. VOUCHES ============ -->
+<section id="vouches">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Vouches</div>
+      <h2>What members <span class="grad-text">are saying</span></h2>
+    </div>
+    <div class="carousel reveal" id="carousel" aria-roledescription="carousel">
+      <div class="track-wrap"><div class="track" id="track"></div></div>
+      <button class="car-btn prev" id="prevBtn" aria-label="Previous vouch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="car-btn next" id="nextBtn" aria-label="Next vouch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. JOIN THE STAFF ============ -->
+<section id="staff">
+  <div class="container">
+    <div class="card staff reveal">
+      <div class="eyebrow">Applications open</div>
+      <h2 class="grad-text" data-bind="staff.title"></h2>
+      <p data-bind="staff.text"></p>
+      <ul class="perks" id="perks"></ul>
+      <a class="btn btn-primary btn-lg" data-href="links.staffApplication" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg>
+        <span data-bind="staff.buttonText"></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. FAQ ============ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>Got <span class="grad-text">questions?</span></h2>
+    </div>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+</main>
+
+<!-- ============ 10. FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-logo"><span data-bind="brand.prefix"></span><span class="script grad-text" data-bind="brand.script"></span></div>
+      <div class="socials" id="socials"></div>
+    </div>
+    <div class="disclaimer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></svg>
+      <span data-bind="footer.disclaimer"></span>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> <span data-bind="footer.copyright"></span></span>
+      <span data-bind="footer.note"></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const C = CONFIG;
+  const $ = (s, r = document) => r.querySelector(s);
+  const get = (path) => path.split(".").reduce((o, k) => (o ? o[k] : undefined), C);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  /* ---------- Original line icons ---------- */
+  const I = (d, size = 24) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  const ICONS = {
+    fps: I('<path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/>'),
+    latency: I('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>'),
+    broom: I('<path d="M19 3l-7 7"/><path d="M8 11l5 5-2 5c-3 0-7-2-8-8z"/><path d="M8 11l3-1 3 3-1 3"/>'),
+    wifi: I('<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>'),
+    wrench: I('<path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-3-3 6-6-1.3-1.3a4 4 0 0 1-5-5L12 3z"/><path d="M3 21l6-6"/>'),
+    youtube: I('<rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/>', 20),
+    tiktok: I('<path d="M14 3v11a4 4 0 1 1-4-4"/><path d="M14 3c0 3 2 5 5 5"/>', 20),
+    x: I('<path d="M4 4l16 16M20 4L4 20"/>', 20),
+    discord: I('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/>', 20),
+    link: I('<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1"/><path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>', 20),
+  };
+
+  /* ---------- Simple text / link binding ---------- */
+  document.querySelectorAll("[data-bind]").forEach((el) => (el.textContent = get(el.dataset.bind) ?? ""));
+  document.querySelectorAll("[data-href]").forEach((el) => (el.href = get(el.dataset.href) || "#"));
+  $("#year").textContent = new Date().getFullYear();
+
+  /* ---------- Features ---------- */
+  $("#featureGrid").innerHTML = C.features.map((f, i) => `
+    <article class="card hoverable feature reveal" style="transition-delay:${i * 80}ms">
+      <div class="icon-box">${ICONS[f.icon] || ICONS.wrench}</div>
+      <h3>${esc(f.title)}</h3><p>${esc(f.text)}</p>
+    </article>`).join("");
+
+  /* ---------- Before / After ---------- */
+  $("#baGrid").innerHTML = C.beforeAfter.map((s, i) => {
+    const higher = s.better === "higher";
+    const pct = higher ? Math.round((s.after / s.before - 1) * 100) : Math.round((1 - s.after / s.before) * 100);
+    const bar = higher ? 100 : Math.max(8, Math.round((s.after / s.before) * 100));
+    const unit = s.unit ? `<small>${esc(s.unit)}</small>` : "";
+    return `
+    <div class="card hoverable ba reveal" style="transition-delay:${i * 80}ms">
+      <div class="ba-label">${esc(s.label)}</div>
+      <div class="ba-row"><span class="ba-tag before">BEFORE</span><span class="ba-num before"><span data-count="${s.before}">0</span>${unit}</span></div>
+      <div class="ba-row"><span class="ba-tag after">AFTER</span><span class="ba-num after grad-text"><span data-count="${s.after}">0</span>${unit}</span></div>
+      <div class="ba-bar"><i data-width="${bar}"></i></div>
+      <div class="ba-delta">${higher ? "▲" : "▼"} ${pct}% ${higher ? "higher" : "lower"}</div>
+    </div>`;
+  }).join("");
+
+  /* ---------- Boost ---------- */
+  const { boosts, boostGoal } = C.stats;
+  $("#boostGoal").textContent = boostGoal;
+  $("#boostNow").dataset.count = boosts;
+  const bb = $("#boostBar");
+  bb.setAttribute("aria-valuemax", boostGoal);
+  bb.setAttribute("aria-valuenow", boosts);
+  bb.querySelector("i").dataset.width = Math.min(100, (boosts / boostGoal) * 100).toFixed(1);
+  $("#milestones").innerHTML = `<span>0</span><span>${Math.round(boostGoal / 2)}</span><span>${boostGoal} 🚀</span>`;
+
+  /* ---------- Roles ---------- */
+  $("#roleGrid").innerHTML = C.roles.map((r, i) => `
+    <article class="card hoverable role reveal" style="--rc:${esc(r.color)};transition-delay:${i * 80}ms">
+      <span class="role-tier">TIER ${String(i + 1).padStart(2, "0")}</span>
+      <span class="role-tag">${esc(r.name)}</span>
+      <p>${esc(r.text)}</p>
+    </article>`).join("");
+
+  /* ---------- Team ---------- */
+  $("#teamGrid").innerHTML = C.team.map((m, i) => `
+    <article class="card hoverable member reveal" style="transition-delay:${i * 100}ms">
+      <div class="avatar"><div>${m.avatar ? `<img src="${esc(m.avatar)}" alt="${esc(m.name)}">` : esc(m.initials || m.name[0])}</div></div>
+      <h3>${esc(m.name)}</h3>
+      <span class="role-tag">${esc(m.role)}</span>
+      <p>${esc(m.bio || "")}</p>
+    </article>`).join("");
+
+  /* ---------- Vouches carousel ---------- */
+  const track = $("#track"), dots = $("#dots");
+  track.innerHTML = C.vouches.map((v) => `
+    <div class="slide"><div class="card vouch">
+      ${/placeholder/i.test(v.text + v.name) ? '<span class="placeholder-flag">PLACEHOLDER — replace with a real vouch</span>' : ""}
+      <div class="quote grad-text">“</div>
+      <div class="stars" aria-label="${v.rating} out of 5 stars">${"★".repeat(v.rating)}${"☆".repeat(5 - v.rating)}</div>
+      <blockquote>${esc(v.text)}</blockquote>
+      <cite>— ${esc(v.name)}</cite>
+    </div></div>`).join("");
+  dots.innerHTML = C.vouches.map((_, i) => `<button aria-label="Go to vouch ${i + 1}"></button>`).join("");
+  let idx = 0, timer;
+  const go = (n) => {
+    idx = (n + C.vouches.length) % C.vouches.length;
+    track.style.transform = `translateX(-${idx * 100}%)`;
+    [...dots.children].forEach((d, i) => d.classList.toggle("active", i === idx));
+  };
+  const auto = () => { clearInterval(timer); timer = setInterval(() => go(idx + 1), 6000); };
+  $("#prevBtn").onclick = () => { go(idx - 1); auto(); };
+  $("#nextBtn").onclick = () => { go(idx + 1); auto(); };
+  [...dots.children].forEach((d, i) => (d.onclick = () => { go(i); auto(); }));
+  const car = $("#carousel");
+  car.addEventListener("mouseenter", () => clearInterval(timer));
+  car.addEventListener("mouseleave", auto);
+  let sx = null;
+  car.addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
+  car.addEventListener("touchend", (e) => {
+    if (sx === null) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) { go(idx + (dx < 0 ? 1 : -1)); auto(); }
+    sx = null;
+  });
+  go(0); auto();
+
+  /* ---------- Staff perks ---------- */
+  $("#perks").innerHTML = C.staff.perks.map((p) => `<li>${esc(p)}</li>`).join("");
+
+  /* ---------- FAQ accordion ---------- */
+  $("#faqList").innerHTML = C.faq.map((f, i) => `
+    <div class="card faq-item reveal">
+      <button class="faq-q" aria-expanded="false" aria-controls="faq-${i}">${esc(f.q)}<span class="plus">+</span></button>
+      <div class="faq-a" id="faq-${i}" role="region"><div><p>${esc(f.a)}</p></div></div>
+    </div>`).join("");
+  document.querySelectorAll(".faq-q").forEach((btn) => btn.addEventListener("click", () => {
+    const item = btn.parentElement, open = !item.classList.contains("open");
+    document.querySelectorAll(".faq-item.open").forEach((o) => { o.classList.remove("open"); o.firstElementChild.setAttribute("aria-expanded", "false"); });
+    item.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", open);
+  }));
+
+  /* ---------- Socials ---------- */
+  const socials = [{ name: "Discord", url: C.links.discordInvite, icon: "discord" }, ...C.links.socials];
+  $("#socials").innerHTML = socials.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="${esc(s.name)}" title="${esc(s.name)}">${ICONS[s.icon] || ICONS.link}</a>`).join("");
+
+  /* ---------- Counters ---------- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const countUp = (el, target, dur = 1600) => {
+    if (reduce) { el.textContent = target.toLocaleString(); return; }
+    const t0 = performance.now();
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * e).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  countUp($("#memberCount"), C.stats.members, 2000);
+
+  /* ---------- Reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    const el = en.target;
+    el.classList.add("visible");
+    el.querySelectorAll("[data-count]").forEach((c) => countUp(c, +c.dataset.count));
+    el.querySelectorAll("[data-width]").forEach((b) => setTimeout(() => (b.style.width = b.dataset.width + "%"), 200));
+    io.unobserve(el);
+  }), { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  /* ---------- Nav ---------- */
+  const nav = $("#nav"), links = $("#navLinks"), menu = $("#menuBtn");
+  const onScroll = () => nav.classList.toggle("scrolled", scrollY > 20);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  menu.onclick = () => { const o = links.classList.toggle("open"); menu.setAttribute("aria-expanded", o); };
+  links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => { links.classList.remove("open"); menu.setAttribute("aria-expanded", "false"); }));
+
+  /* ---------- Starfield ---------- */
+  const cv = $("#stars"), ctx = cv.getContext("2d");
+  let stars = [], W, H, dpr;
+  const resize = () => {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round((W * H) / 9000);
+    stars = Array.from({ length: n }, () => ({
+      x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.3 + 0.2,
+      p: Math.random() * Math.PI * 2, s: Math.random() * 0.02 + 0.005,
+      c: Math.random() < 0.25 ? "236,72,153" : Math.random() < 0.5 ? "168,85,247" : "255,255,255",
+    }));
+  };
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H);
+    for (const st of stars) {
+      st.p += st.s;
+      const a = 0.35 + Math.sin(st.p) * 0.35;
+      ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${st.c},${a})`; ctx.fill();
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  };
+  addEventListener("resize", resize); resize(); draw();
+})();
+</script>
+</body>
+</html>
